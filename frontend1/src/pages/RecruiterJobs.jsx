@@ -12,7 +12,7 @@ function RecruiterJobs() {
         const token = localStorage.getItem("token");
 
         const response = await axios.get(
-          "http://localhost:5000/api/jobs/my-jobs",
+          "https://hiretrack-backend.onrender.com/api/jobs/my-jobs",
           {
             headers: {
               Authorization: `Bearer ${token}`
@@ -23,7 +23,7 @@ function RecruiterJobs() {
         setJobs(response.data);
 
       } catch (error) {
-        console.error(error);
+        console.error("Error fetching jobs:", error);
       }
     };
 

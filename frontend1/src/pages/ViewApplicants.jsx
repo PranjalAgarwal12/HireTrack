@@ -15,7 +15,7 @@ function ViewApplicants() {
       const token = localStorage.getItem("token");
 
       const response = await axios.get(
-        `http://localhost:5000/api/applications/job/${jobId}`,
+        `https://hiretrack-backend.onrender.com/api/applications/job/${jobId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`
@@ -26,7 +26,7 @@ function ViewApplicants() {
       setApplications(response.data);
 
     } catch (error) {
-      console.error(error);
+      console.error("Error fetching applicants:", error);
     }
   };
 
@@ -35,7 +35,7 @@ function ViewApplicants() {
       const token = localStorage.getItem("token");
 
       await axios.put(
-        `http://localhost:5000/api/applications/status/${applicationId}`,
+        `https://hiretrack-backend.onrender.com/api/applications/status/${applicationId}`,
         { status },
         {
           headers: {
@@ -65,9 +65,9 @@ function ViewApplicants() {
             <p>Email: {app.applicant.email}</p>
             <p>Status: {app.status}</p>
 
-            {app.status === "applied" && (
+            {app.status === "pending" && (
               <>
-                <button onClick={() => updateStatus(app._id, "selected")}>
+                <button onClick={() => updateStatus(app._id, "accepted")}>
                   Accept
                 </button>
 

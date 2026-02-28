@@ -9,10 +9,12 @@ function ViewJobs() {
   useEffect(() => {
     const fetchJobs = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/jobs");
+        const response = await axios.get(
+          "https://hiretrack-backend.onrender.com/api/jobs"
+        );
         setJobs(response.data);
       } catch (error) {
-        console.error(error);
+        console.error("Error fetching jobs:", error);
       }
     };
 
@@ -30,7 +32,7 @@ function ViewJobs() {
       const token = localStorage.getItem("token");
 
       await axios.post(
-        `http://localhost:5000/api/applications/${jobId}`,
+        `https://hiretrack-backend.onrender.com/api/applications/${jobId}`,
         {},
         {
           headers: {
