@@ -11,17 +11,29 @@ function Login() {
   const handleLogin = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/auth/login",
-        { email, password }
+        "https://hiretrack-backend.onrender.com/api/auth/login",
+        {
+          email,
+          password,
+        }
       );
 
+      // Save token in localStorage
       localStorage.setItem("token", response.data.token);
 
       alert("Login Successful");
+
+      // Navigate to dashboard
       navigate("/dashboard");
 
     } catch (error) {
-      alert("Invalid credentials");
+      console.error("Login Error:", error);
+
+      if (error.response) {
+        alert(error.response.data.message);
+      } else {
+        alert("Server not reachable. Check backend.");
+      }
     }
   };
 
