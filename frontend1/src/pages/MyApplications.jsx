@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
+const API = import.meta.env.VITE_API_URL;
+
 function MyApplications() {
   const [applications, setApplications] = useState([]);
 
@@ -9,19 +11,23 @@ function MyApplications() {
       try {
         const token = localStorage.getItem("token");
 
+        if (!token) {
+          alert("Please login first");
+          return;
+        }
+
         const response = await axios.get(
-          "http://localhost:5000/api/applications/my",
+          `${API}/api/applications/my`,
           {
             headers: {
-              Authorization: `Bearer ${token}`
-            }
+              Authorization: `Bearer ${token}`,
+            },
           }
         );
 
         setApplications(response.data);
-
       } catch (error) {
-        console.error(error);
+        console.error("Error fetching applications:", error);
       }
     };
 
@@ -36,11 +42,18 @@ function MyApplications() {
         <p>No applications found.</p>
       ) : (
         applications.map((app) => (
-          <div key={app._id}>
+          <div
+            key={app._id}
+            style={{
+              border: "1px solid black",
+              margin: "10px",
+              padding: "10px",
+            }}
+          >
             <h3>{app.job.title}</h3>
-            <p>Company: {app.job.company}</p>
-            <p>Location: {app.job.location}</p>
-            <p>Status: {app.status}</p>
+            <p><strong>Company:</strong> {app.job.company}</p>
+            <p><strong>Location:</strong> {app.job.location}</p>
+            <p><strong>Status:</strong> {app.status}</p>
           </div>
         ))
       )}

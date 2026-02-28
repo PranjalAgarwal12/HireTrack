@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 
+const API = import.meta.env.VITE_API_URL;
+
 function ViewJobs() {
   const [jobs, setJobs] = useState([]);
   const [role, setRole] = useState("");
@@ -9,9 +11,7 @@ function ViewJobs() {
   useEffect(() => {
     const fetchJobs = async () => {
       try {
-        const response = await axios.get(
-          "http://localhost:5000/api/jobs"
-        );
+        const response = await axios.get(`${API}/api/jobs`);
         setJobs(response.data);
       } catch (error) {
         console.error("Error fetching jobs:", error);
@@ -27,13 +27,18 @@ function ViewJobs() {
     fetchJobs();
   }, []);
 
-  // 🔥 APPLY FUNCTION
+  // APPLY FUNCTION
   const handleApply = async (jobId) => {
     try {
       const token = localStorage.getItem("token");
 
+      if (!token) {
+        alert("Please login first");
+        return;
+      }
+
       await axios.post(
-        `http://localhost:5000/api/applications/${jobId}`,
+        `${API}/api/applications/${jobId}`,
         {},
         {
           headers: {
@@ -43,7 +48,6 @@ function ViewJobs() {
       );
 
       alert("Applied successfully!");
-
     } catch (error) {
       alert(error.response?.data?.message || "Error applying");
     }
@@ -71,7 +75,6 @@ function ViewJobs() {
             <p><strong>Salary:</strong> {job.salary}</p>
             <p>{job.description}</p>
 
-            {/* 🔥 Only candidates can apply */}
             {role === "candidate" && (
               <button onClick={() => handleApply(job._id)}>
                 Apply
