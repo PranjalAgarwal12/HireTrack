@@ -16,12 +16,12 @@ function PostJob() {
       const token = localStorage.getItem("token");
 
       await axios.post(
-        "http://localhost:5000/api/jobs",
+        "https://hiretrack-backend.onrender.com/api/jobs",
         { title, company, location, salary, description },
         {
           headers: {
-            Authorization: `Bearer ${token}`
-          }
+            Authorization: `Bearer ${token}`,
+          },
         }
       );
 
@@ -29,6 +29,7 @@ function PostJob() {
       navigate("/dashboard");
 
     } catch (error) {
+      console.error(error);
       alert("Error posting job");
     }
   };
