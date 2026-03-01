@@ -18,14 +18,11 @@ function Login() {
         }
       );
 
-      // Save token in localStorage
       localStorage.setItem("token", response.data.token);
 
       alert("Login Successful");
 
-      // Navigate to dashboard
       navigate("/dashboard");
-
     } catch (error) {
       console.error("Login Error:", error);
 
@@ -38,34 +35,99 @@ function Login() {
   };
 
   return (
-    <div>
-      <h1>Login Page</h1>
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        height: "100vh",
+        background: "linear-gradient(135deg, #667eea, #764ba2)",
+        fontFamily: "Arial",
+      }}
+    >
+      <div
+        style={{
+          background: "#ffffff",
+          padding: "40px",
+          borderRadius: "12px",
+          width: "350px",
+          boxShadow: "0 10px 30px rgba(0,0,0,0.2)",
+          textAlign: "center",
+        }}
+      >
+        <h2 style={{ marginBottom: "10px", color: "#333" }}>
+          Welcome to HireTrack
+        </h2>
 
-      <input
-        type="email"
-        placeholder="Enter Email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
+        <p style={{ marginBottom: "25px", color: "#777" }}>
+          Login to continue
+        </p>
 
-      <br /><br />
+        <input
+          type="email"
+          placeholder="Enter Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          style={{
+            width: "100%",
+            padding: "12px",
+            marginBottom: "15px",
+            borderRadius: "6px",
+            border: "1px solid #ccc",
+            fontSize: "14px",
+          }}
+        />
 
-      <input
-        type="password"
-        placeholder="Enter Password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
+        <input
+          type="password"
+          placeholder="Enter Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          style={{
+            width: "100%",
+            padding: "12px",
+            marginBottom: "20px",
+            borderRadius: "6px",
+            border: "1px solid #ccc",
+            fontSize: "14px",
+          }}
+        />
 
-      <br /><br />
+        <button
+          onClick={handleLogin}
+          style={{
+            width: "100%",
+            padding: "12px",
+            background: "#667eea",
+            color: "white",
+            border: "none",
+            borderRadius: "6px",
+            cursor: "pointer",
+            fontSize: "16px",
+            fontWeight: "bold",
+          }}
+        >
+          Login
+        </button>
 
-      <button onClick={handleLogin}>Login</button>
+        <p style={{ marginTop: "20px", color: "#666" }}>
+          Don't have an account?
+        </p>
 
-      <br /><br />
-
-      <button onClick={() => navigate("/register")}>
-        Don't have an account? Register
-      </button>
+        <button
+          onClick={() => navigate("/register")}
+          style={{
+            background: "transparent",
+            border: "none",
+            color: "#667eea",
+            cursor: "pointer",
+            fontSize: "15px",
+            fontWeight: "bold",
+          }}
+        >
+          Register Here
+        </button>
+      </div>
     </div>
   );
 }

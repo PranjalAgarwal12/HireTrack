@@ -31,25 +31,73 @@ function RecruiterJobs() {
   }, []);
 
   return (
-    <div>
-      <h1>My Posted Jobs</h1>
+    <div style={styles.page}>
+      <h1 style={styles.heading}>My Posted Jobs</h1>
 
       {jobs.length === 0 ? (
-        <p>No jobs posted yet.</p>
+        <p style={{ textAlign: "center" }}>No jobs posted yet.</p>
       ) : (
-        jobs.map((job) => (
-          <div key={job._id}>
-            <h3>{job.title}</h3>
-            <p>Company: {job.company}</p>
+        <div style={styles.grid}>
+          {jobs.map((job) => (
+            <div key={job._id} style={styles.card}>
+              <h3 style={styles.title}>{job.title}</h3>
 
-            <button onClick={() => navigate(`/view-applicants/${job._id}`)}>
-              View Applicants
-            </button>
-          </div>
-        ))
+              <p><strong>Company:</strong> {job.company}</p>
+
+              <button
+                style={styles.button}
+                onClick={() => navigate(`/view-applicants/${job._id}`)}
+              >
+                View Applicants
+              </button>
+            </div>
+          ))}
+        </div>
       )}
     </div>
   );
 }
+
+const styles = {
+  page: {
+    padding: "40px",
+    background: "#f4f6f8",
+    minHeight: "100vh",
+    fontFamily: "Arial"
+  },
+
+  heading: {
+    textAlign: "center",
+    marginBottom: "30px"
+  },
+
+  grid: {
+    display: "grid",
+    gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+    gap: "20px"
+  },
+
+  card: {
+    background: "white",
+    padding: "20px",
+    borderRadius: "10px",
+    boxShadow: "0 4px 12px rgba(0,0,0,0.1)"
+  },
+
+  title: {
+    marginBottom: "10px"
+  },
+
+  button: {
+    marginTop: "15px",
+    padding: "10px",
+    border: "none",
+    borderRadius: "6px",
+    background: "#6366f1",
+    color: "white",
+    cursor: "pointer",
+    fontWeight: "bold"
+  }
+};
 
 export default RecruiterJobs;

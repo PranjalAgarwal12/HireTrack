@@ -42,7 +42,6 @@ function ViewJobs() {
       );
 
       alert("Applied successfully!");
-
     } catch (error) {
       alert(error.response?.data?.message || "Error applying");
     }
@@ -50,29 +49,33 @@ function ViewJobs() {
 
   return (
     <div style={styles.page}>
-      <h1>Available Jobs</h1>
+      <h1 style={styles.heading}>Available Jobs</h1>
 
       {jobs.length === 0 ? (
         <p>No jobs available.</p>
       ) : (
-        jobs.map((job) => (
-          <div key={job._id} style={styles.card}>
-            <h3>{job.title}</h3>
-            <p><strong>Company:</strong> {job.company}</p>
-            <p><strong>Location:</strong> {job.location}</p>
-            <p><strong>Salary:</strong> {job.salary}</p>
-            <p>{job.description}</p>
+        <div style={styles.grid}>
+          {jobs.map((job) => (
+            <div key={job._id} style={styles.card}>
+              <h3 style={styles.jobTitle}>{job.title}</h3>
 
-            {role === "candidate" && (
-              <button
-                style={styles.applyButton}
-                onClick={() => handleApply(job._id)}
-              >
-                Apply
-              </button>
-            )}
-          </div>
-        ))
+              <p style={styles.info}><strong>Company:</strong> {job.company}</p>
+              <p style={styles.info}><strong>Location:</strong> {job.location}</p>
+              <p style={styles.info}><strong>Salary:</strong> {job.salary}</p>
+
+              <p style={styles.description}>{job.description}</p>
+
+              {role === "candidate" && (
+                <button
+                  style={styles.applyButton}
+                  onClick={() => handleApply(job._id)}
+                >
+                  Apply Now
+                </button>
+              )}
+            </div>
+          ))}
+        </div>
       )}
     </div>
   );
@@ -81,24 +84,55 @@ function ViewJobs() {
 const styles = {
   page: {
     padding: "40px",
-    backgroundColor: "#f3f4f6",
+    background: "#f4f6f8",
     minHeight: "100vh",
+    fontFamily: "Arial",
   },
+
+  heading: {
+    textAlign: "center",
+    marginBottom: "30px",
+  },
+
+  grid: {
+    display: "grid",
+    gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+    gap: "20px",
+  },
+
   card: {
-    backgroundColor: "white",
+    background: "white",
     padding: "20px",
-    margin: "20px 0",
-    borderRadius: "10px",
-    boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
+    borderRadius: "12px",
+    boxShadow: "0 6px 15px rgba(0,0,0,0.1)",
+    transition: "transform 0.2s",
   },
-  applyButton: {
+
+  jobTitle: {
+    marginBottom: "10px",
+    color: "#333",
+  },
+
+  info: {
+    margin: "4px 0",
+    color: "#555",
+  },
+
+  description: {
     marginTop: "10px",
-    padding: "8px 14px",
+    color: "#666",
+    fontSize: "14px",
+  },
+
+  applyButton: {
+    marginTop: "15px",
+    padding: "10px 15px",
     border: "none",
     borderRadius: "6px",
-    backgroundColor: "#10b981",
+    backgroundColor: "#6366f1",
     color: "white",
     cursor: "pointer",
+    fontWeight: "bold",
   },
 };
 

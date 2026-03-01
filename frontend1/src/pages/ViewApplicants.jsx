@@ -53,34 +53,94 @@ function ViewApplicants() {
   };
 
   return (
-    <div>
-      <h1>Applicants</h1>
+    <div style={styles.page}>
+      <h1 style={styles.heading}>Job Applicants</h1>
 
       {applications.length === 0 ? (
-        <p>No applicants yet.</p>
+        <p style={{ textAlign: "center" }}>No applicants yet.</p>
       ) : (
-        applications.map((app) => (
-          <div key={app._id}>
-            <p>Name: {app.applicant.name}</p>
-            <p>Email: {app.applicant.email}</p>
-            <p>Status: {app.status}</p>
+        <div style={styles.grid}>
+          {applications.map((app) => (
+            <div key={app._id} style={styles.card}>
+              <h3>{app.applicant.name}</h3>
 
-            {app.status === "pending" && (
-              <>
-                <button onClick={() => updateStatus(app._id, "accepted")}>
-                  Accept
-                </button>
+              <p><strong>Email:</strong> {app.applicant.email}</p>
+              <p><strong>Status:</strong> {app.status}</p>
 
-                <button onClick={() => updateStatus(app._id, "rejected")}>
-                  Reject
-                </button>
-              </>
-            )}
-          </div>
-        ))
+              {app.status === "pending" && (
+                <div style={styles.buttons}>
+                  <button
+                    style={styles.acceptBtn}
+                    onClick={() => updateStatus(app._id, "accepted")}
+                  >
+                    Accept
+                  </button>
+
+                  <button
+                    style={styles.rejectBtn}
+                    onClick={() => updateStatus(app._id, "rejected")}
+                  >
+                    Reject
+                  </button>
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
       )}
     </div>
   );
 }
+
+const styles = {
+  page: {
+    padding: "40px",
+    background: "#f4f6f8",
+    minHeight: "100vh",
+    fontFamily: "Arial"
+  },
+
+  heading: {
+    textAlign: "center",
+    marginBottom: "30px"
+  },
+
+  grid: {
+    display: "grid",
+    gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+    gap: "20px"
+  },
+
+  card: {
+    background: "white",
+    padding: "20px",
+    borderRadius: "10px",
+    boxShadow: "0 4px 12px rgba(0,0,0,0.1)"
+  },
+
+  buttons: {
+    marginTop: "15px",
+    display: "flex",
+    gap: "10px"
+  },
+
+  acceptBtn: {
+    padding: "8px 14px",
+    border: "none",
+    borderRadius: "6px",
+    background: "#10b981",
+    color: "white",
+    cursor: "pointer"
+  },
+
+  rejectBtn: {
+    padding: "8px 14px",
+    border: "none",
+    borderRadius: "6px",
+    background: "#ef4444",
+    color: "white",
+    cursor: "pointer"
+  }
+};
 
 export default ViewApplicants;
