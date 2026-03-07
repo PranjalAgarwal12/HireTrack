@@ -3,137 +3,228 @@ import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 
 function ViewJobs() {
-  const [jobs, setJobs] = useState([]);
-  const [role, setRole] = useState("");
 
-  useEffect(() => {
-    const fetchJobs = async () => {
-      try {
+  const [jobs,setJobs] = useState([]);
+  const [role,setRole] = useState("");
+
+  useEffect(()=>{
+
+    const fetchJobs = async ()=>{
+
+      try{
+
         const response = await axios.get(
           "https://hiretrack-backend.onrender.com/api/jobs"
         );
+
         setJobs(response.data);
-      } catch (error) {
-        console.error("Error fetching jobs:", error);
+
+      }catch(error){
+
+        console.error("Error fetching jobs:",error);
+
       }
+
     };
 
     const token = localStorage.getItem("token");
-    if (token) {
+
+    if(token){
+
       const decoded = jwtDecode(token);
       setRole(decoded.role);
+
     }
 
     fetchJobs();
-  }, []);
 
-  const handleApply = async (jobId) => {
-    try {
+  },[]);
+
+
+  const handleApply = async(jobId)=>{
+
+    try{
+
       const token = localStorage.getItem("token");
 
       await axios.post(
         `https://hiretrack-backend.onrender.com/api/applications/${jobId}`,
         {},
         {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          headers:{
+            Authorization:`Bearer ${token}`
+          }
         }
       );
 
       alert("Applied successfully!");
-    } catch (error) {
+
+    }catch(error){
+
       alert(error.response?.data?.message || "Error applying");
+
     }
+
   };
 
-  return (
+
+  return(
+
     <div style={styles.page}>
-      <h1 style={styles.heading}>Available Jobs</h1>
 
-      {jobs.length === 0 ? (
-        <p>No jobs available.</p>
-      ) : (
-        <div style={styles.grid}>
-          {jobs.map((job) => (
-            <div key={job._id} style={styles.card}>
-              <h3 style={styles.jobTitle}>{job.title}</h3>
+      <div style={styles.container}>
 
-              <p style={styles.info}><strong>Company:</strong> {job.company}</p>
-              <p style={styles.info}><strong>Location:</strong> {job.location}</p>
-              <p style={styles.info}><strong>Salary:</strong> {job.salary}</p>
+        <h1 style={styles.heading}>
+          Explore Job Opportunities
+        </h1>
 
-              <p style={styles.description}>{job.description}</p>
+        {jobs.length===0 ?(
 
-              {role === "candidate" && (
-                <button
-                  style={styles.applyButton}
-                  onClick={() => handleApply(job._id)}
-                >
-                  Apply Now
-                </button>
-              )}
-            </div>
-          ))}
-        </div>
-      )}
+          <p style={styles.noJobs}>
+            No jobs available.
+          </p>
+
+        ):(
+          
+          <div style={styles.grid}>
+
+            {jobs.map((job)=>(
+
+              <div key={job._id} style={styles.card}>
+
+                <h3 style={styles.jobTitle}>
+                  {job.title}
+                </h3>
+
+                <div style={styles.tags}>
+
+                  <span style={styles.tag}>
+                    {job.company}
+                  </span>
+
+                  <span style={styles.tag}>
+                    {job.location}
+                  </span>
+
+                  <span style={styles.tag}>
+                    {job.salary}
+                  </span>
+
+                </div>
+
+                <p style={styles.description}>
+                  {job.description}
+                </p>
+
+                {role==="candidate" &&(
+
+                  <button
+                    style={styles.applyButton}
+                    onClick={()=>handleApply(job._id)}
+                  >
+                    Apply Now
+                  </button>
+
+                )}
+
+              </div>
+
+            ))}
+
+          </div>
+
+        )}
+
+      </div>
+
     </div>
+
   );
+
 }
 
 const styles = {
-  page: {
-    padding: "40px",
-    background: "#f4f6f8",
-    minHeight: "100vh",
-    fontFamily: "Arial",
-  },
 
-  heading: {
-    textAlign: "center",
-    marginBottom: "30px",
-  },
+page:{
+minHeight:"100vh",
+background:"#0f172a",
+padding:"60px 20px",
+fontFamily:"Inter, sans-serif"
+},
 
-  grid: {
-    display: "grid",
-    gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
-    gap: "20px",
-  },
+container:{
+maxWidth:"1100px",
+margin:"auto"
+},
 
-  card: {
-    background: "white",
-    padding: "20px",
-    borderRadius: "12px",
-    boxShadow: "0 6px 15px rgba(0,0,0,0.1)",
-    transition: "transform 0.2s",
-  },
+heading:{
+textAlign:"center",
+marginBottom:"40px",
+color:"white",
+fontSize:"34px",
+fontWeight:"600"
+},
 
-  jobTitle: {
-    marginBottom: "10px",
-    color: "#333",
-  },
+noJobs:{
+textAlign:"center",
+color:"#94a3b8",
+fontSize:"18px"
+},
 
-  info: {
-    margin: "4px 0",
-    color: "#555",
-  },
+grid:{
+display:"grid",
+gridTemplateColumns:"repeat(auto-fit,minmax(300px,1fr))",
+gap:"28px"
+},
 
-  description: {
-    marginTop: "10px",
-    color: "#666",
-    fontSize: "14px",
-  },
+card:{
+background:"#1e293b",
+padding:"28px",
+borderRadius:"14px",
+boxShadow:"0 10px 25px rgba(0,0,0,0.35)",
+border:"1px solid rgba(255,255,255,0.05)",
+color:"white"
+},
 
-  applyButton: {
-    marginTop: "15px",
-    padding: "10px 15px",
-    border: "none",
-    borderRadius: "6px",
-    backgroundColor: "#6366f1",
-    color: "white",
-    cursor: "pointer",
-    fontWeight: "bold",
-  },
+jobTitle:{
+fontSize:"20px",
+marginBottom:"10px",
+fontWeight:"600"
+},
+
+tags:{
+display:"flex",
+flexWrap:"wrap",
+gap:"8px",
+marginBottom:"12px"
+},
+
+tag:{
+background:"#334155",
+padding:"6px 12px",
+borderRadius:"20px",
+fontSize:"12px",
+color:"#e2e8f0"
+},
+
+description:{
+fontSize:"14px",
+color:"#cbd5f5",
+lineHeight:"1.6"
+},
+
+applyButton:{
+marginTop:"18px",
+padding:"10px 16px",
+borderRadius:"8px",
+border:"none",
+background:"linear-gradient(135deg,#6366f1,#7c3aed)",
+color:"white",
+fontWeight:"600",
+cursor:"pointer",
+fontSize:"14px"
+}
+
 };
 
 export default ViewJobs;
