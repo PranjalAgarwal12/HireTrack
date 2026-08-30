@@ -1,6 +1,6 @@
 # 🚀 HireTrack – Recruitment Management System
 
-A full-stack Recruitment Management System built using **Java Spring Boot** and **MySQL** to streamline the hiring process for recruiters and job seekers. HireTrack provides an efficient platform for posting jobs, managing applications, scheduling interviews, and tracking candidates throughout the recruitment lifecycle.
+A full-stack Recruitment Management System built using *MERN STACK* to streamline the hiring process for recruiters and job seekers. HireTrack provides an efficient platform for posting jobs, managing applications, scheduling interviews, and tracking candidates throughout the recruitment lifecycle.
 
 ---
 
