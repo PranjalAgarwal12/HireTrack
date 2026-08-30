@@ -294,10 +294,6 @@ The application will run locally on the configured frontend and backend ports.
 
 ✅ Candidate Application Management
 
-✅ Resume Upload
-
-✅ Interview Scheduling
-
 ✅ Candidate Status Tracking
 
 ✅ MongoDB Database Integration
